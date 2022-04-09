@@ -4,14 +4,14 @@ import 'package:flutter_formula_one_2022/components/show_circuit.dart';
 //service
 import 'package:flutter_formula_one_2022/service/race.dart';
 
-class Current extends StatefulWidget {
-  const Current({Key? key}) : super(key: key);
+class Prix extends StatefulWidget {
+  const Prix({Key? key}) : super(key: key);
 
   @override
-  State<Current> createState() => _CurrentState();
+  State<Prix> createState() => _PrixState();
 }
 
-class _CurrentState extends State<Current> {
+class _PrixState extends State<Prix> {
   Race data = Race();
   String currentRound = '0';
   var currentRaceName = 'Loading...';
@@ -33,42 +33,57 @@ class _CurrentState extends State<Current> {
   var sprint = '';
   var sprintDate = '';
 
+  var getName = '';
+  var getRound = '';
+
   void getInitData() async {
-    await data.getCurrentRace();
+    await data.getSpecificRace(getRound);
     print('init');
     setState(() {
-      currentRound = data.currentRace['round'];
-      currentRaceName = data.currentRace['raceName'];
-      currentRaceDate = data.currentRace['date'];
-      currentRaceLocality = data.currentRace['Circuit']['Location']['locality'];
-      currentRaceCountry = data.currentRace['Circuit']['Location']['country'];
-      circuitName = data.currentRace['Circuit']['circuitName'];
+      currentRound = data.specificRace['round'];
+      currentRaceName = data.specificRace['raceName'];
+      currentRaceDate = data.specificRace['date'];
+      currentRaceLocality =
+          data.specificRace['Circuit']['Location']['locality'];
+      currentRaceCountry = data.specificRace['Circuit']['Location']['country'];
+      circuitName = data.specificRace['Circuit']['circuitName'];
       //race date
-      firstPrac = data.currentRace['FirstPractice']['time'];
-      firstPracDate = data.currentRace['FirstPractice']['date'];
-      secondPrac = data.currentRace['SecondPractice']['time'];
-      secondPracDate = data.currentRace['SecondPractice']['date'];
+      firstPrac = data.specificRace['FirstPractice']['time'];
+      firstPracDate = data.specificRace['FirstPractice']['date'];
+      secondPrac = data.specificRace['SecondPractice']['time'];
+      secondPracDate = data.specificRace['SecondPractice']['date'];
 
-      if (data.currentRace['ThirdPractice'] != null) {
-        thirdPrac = data.currentRace['ThirdPractice']['time'];
-        thirdPracDate = data.currentRace['ThirdPractice']['date'];
+      if (data.specificRace['ThirdPractice'] != null) {
+        thirdPrac = data.specificRace['ThirdPractice']['time'];
+        thirdPracDate = data.specificRace['ThirdPractice']['date'];
       }
 
-      if (data.currentRace['Sprint'] != null) {
-        sprint = data.currentRace['Sprint']['time'];
-        sprintDate = data.currentRace['Sprint']['date'];
+      if (data.specificRace['Sprint'] != null) {
+        sprint = data.specificRace['Sprint']['time'];
+        sprintDate = data.specificRace['Sprint']['date'];
       }
 
-      qualify = data.currentRace['Qualifying']['time'];
-      qualifyDate = data.currentRace['Qualifying']['date'];
-      mainRace = data.currentRace['time'];
-      mainRaceDate = data.currentRace['date'];
+      qualify = data.specificRace['Qualifying']['time'];
+      qualifyDate = data.specificRace['Qualifying']['date'];
+      mainRace = data.specificRace['time'];
+      mainRaceDate = data.specificRace['date'];
     });
   }
 
   void initState() {
     print('init current');
-    getInitData();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        var routeData = ModalRoute.of(context)!.settings.arguments;
+        if (routeData != null) {
+          print(routeData);
+          print((routeData as Map)['raceRound']);
+          getRound = (routeData as Map)['raceRound'];
+          getName = (routeData as Map)['raceName'];
+          getInitData();
+        }
+      });
+    });
   }
 
   @override
@@ -79,7 +94,7 @@ class _CurrentState extends State<Current> {
           elevation: 0,
           backgroundColor: Colors.red[900],
           title: Text(
-            'Current',
+            getName,
             style: TextStyle(
                 fontFamily: 'Ubuntu', color: Colors.white, fontSize: 24),
           ),
@@ -147,17 +162,17 @@ class _CurrentState extends State<Current> {
                       date: secondPracDate,
                       event: 'Second Practice',
                     ),
-                    sprint == '' ?
-                    CurrentContent(
-                      time: thirdPrac,
-                      date: thirdPracDate,
-                      event: 'Third Practice',
-                    ) :
-                    CurrentContent(
-                      time: sprint,
-                      date: sprintDate,
-                      event: 'Sprint Qualify',
-                    ),
+                    sprint == ''
+                        ? CurrentContent(
+                            time: thirdPrac,
+                            date: thirdPracDate,
+                            event: 'Third Practice',
+                          )
+                        : CurrentContent(
+                            time: sprint,
+                            date: sprintDate,
+                            event: 'Sprint Qualify',
+                          ),
                     CurrentContent(
                       time: qualify,
                       date: qualifyDate,
@@ -178,10 +193,10 @@ class _CurrentState extends State<Current> {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/calender');
                       },
                       child: Text(
-                        'Back to Home',
+                        'Back to Calender',
                         style: TextStyle(
                             fontFamily: 'Ubuntu',
                             fontSize: 24,

@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                 Expanded(
                     child: MainCard(
                       title: 'Standings',
-                      route: '/Standing',
+                      route: '/standing',
                       height: 150,
                 ))
               ],
