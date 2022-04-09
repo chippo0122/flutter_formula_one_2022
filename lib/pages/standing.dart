@@ -66,7 +66,7 @@ class _StandingState extends State<Standing> {
           Divider(height: 15),
           currentStatus == 'driver'
               ? Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(0, 10, 10, 70),
                   child: Column(
                       children: driverStanding?.map<Widget>((item) {
                             var givenName = item['Driver']['givenName'];
@@ -91,7 +91,7 @@ class _StandingState extends State<Standing> {
                           ]),
                 )
               : Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(0, 10, 10, 70),
                   child: Column(
                       children: constructorStanding?.map<Widget>((item) {
                             return TeamStandingItem(
@@ -111,7 +111,7 @@ class _StandingState extends State<Standing> {
                               ),
                             )
                           ]),
-                )
+                ),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
