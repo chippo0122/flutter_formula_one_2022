@@ -45,7 +45,7 @@ class Race {
   }
 
   Future getLastRace() async {
-    Uri url = Uri.parse('http://ergast.com/api/f1/current/results.json?limit=1');
+    Uri url = Uri.parse('http://ergast.com/api/f1/current/last/results.json?limit=1');
     try {
       var response = await get(url);
       var data = jsonDecode(response.body);
