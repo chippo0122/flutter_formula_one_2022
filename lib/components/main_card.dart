@@ -32,8 +32,9 @@ class MainCard extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                  height: 180,
+                  height: height,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(

@@ -6,6 +6,7 @@ class Race {
   var currentRace;
   var allCalender;
   var specificRace;
+  var lastRace;
 
   Future getCurrentRace() async {
     Uri url = Uri.parse("http://ergast.com/api/f1/current/next.json");
@@ -37,6 +38,18 @@ class Race {
       var response = await get(url);
       var data = jsonDecode(response.body);
       specificRace = data['MRData']['RaceTable']['Races'][0];
+      print('SUCCESS');
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future getLastRace() async {
+    Uri url = Uri.parse('http://ergast.com/api/f1/current/results.json?limit=1');
+    try {
+      var response = await get(url);
+      var data = jsonDecode(response.body);
+      lastRace = data['MRData']['RaceTable']['Races'][0]['raceName'];
       print('SUCCESS');
     } catch (err) {
       print(err);

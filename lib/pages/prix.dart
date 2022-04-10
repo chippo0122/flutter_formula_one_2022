@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //component
 import 'package:flutter_formula_one_2022/components/show_circuit.dart';
+import 'package:flutter_formula_one_2022/components/current_content.dart';
 //service
 import 'package:flutter_formula_one_2022/service/race.dart';
 
@@ -14,7 +15,7 @@ class Prix extends StatefulWidget {
 class _PrixState extends State<Prix> {
   Race data = Race();
   String currentRound = '0';
-  var currentRaceName = 'Loading...';
+  var currentRaceName = '';
   var currentRaceDate = '';
   var currentRaceLocality = '';
   var currentRaceCountry = '';
@@ -102,7 +103,14 @@ class _PrixState extends State<Prix> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset('assets/images/calender/round_$currentRound.jpg'),
+              currentRound == '0'
+                  ? Text('Loading...',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Ubuntu',
+                          fontSize: 24))
+                  : Image.asset(
+                      'assets/images/calender/round_$currentRound.jpg'),
               SizedBox(
                 height: 10,
               ),
@@ -193,7 +201,7 @@ class _PrixState extends State<Prix> {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/calender');
+                        Navigator.pop(context);
                       },
                       child: Text(
                         'Back to Calender',
@@ -213,66 +221,5 @@ class _PrixState extends State<Prix> {
             ],
           ),
         ));
-  }
-}
-
-class CurrentContent extends StatelessWidget {
-  String time;
-  String date;
-  String event;
-
-  CurrentContent(
-      {Key? key, required this.time, required this.date, required this.event})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            child: Row(
-              children: [
-                Icon(
-                  Icons.flag,
-                  color: Colors.white,
-                ),
-                SizedBox(width: 15),
-                Text(
-                  event,
-                  style: TextStyle(
-                      color: Colors.grey[300],
-                      fontFamily: 'Ubuntu',
-                      fontSize: 24),
-                )
-              ],
-            ),
-          ),
-          SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                date,
-                style: TextStyle(
-                    color: Colors.grey[300],
-                    fontSize: 18,
-                    fontFamily: 'Ubuntu'),
-              ),
-              Text(
-                time,
-                style: TextStyle(
-                    color: Colors.grey[300],
-                    fontSize: 24,
-                    fontFamily: 'Ubuntu'),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

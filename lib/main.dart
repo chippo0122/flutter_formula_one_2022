@@ -5,6 +5,7 @@ import 'package:flutter_formula_one_2022/pages/calender.dart';
 import 'package:flutter_formula_one_2022/pages/standing.dart';
 import 'package:flutter_formula_one_2022/pages/current.dart';
 import 'package:flutter_formula_one_2022/pages/prix.dart';
+import 'package:flutter_formula_one_2022/pages/result.dart';
 
 
 void main() {
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         '/calender': (context) => const Calender(),
         '/standing': (context) => const Standing(),
         '/current': (context) => const Current(),
-        '/prix': (context) => const Prix()
+        '/prix': (context) => const Prix(),
+        '/result': (context) => const RaceResult()
       },
     );
   }
